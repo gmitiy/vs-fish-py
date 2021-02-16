@@ -22,7 +22,7 @@ class Game:
         self.player1.reset()
         self.player2.reset()
 
-    def change_level(self):
+    def _change_level(self):
         while True:
             new_level = self.level + numpy.random.choice(numpy.arange(-2, 3), p = [1/6, 1/6, 0, 1/3, 1/3])
             if new_level < 1:
@@ -43,4 +43,8 @@ class Game:
 
             self.level = new_level
             break    
+
+    def next_turn(self):
+        self.turn += 1
+        self._change_level()
 
