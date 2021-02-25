@@ -50,3 +50,8 @@ class Sounds:
     @staticmethod
     def water_level_down():
         _play_sound("level_down.mp3", Lang.NONE)
+
+    @staticmethod
+    def cell(number, cell_level, cur_level, lang):
+        pass
+
