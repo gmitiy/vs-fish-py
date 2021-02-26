@@ -1,6 +1,6 @@
 import numpy
 from audio import Lang, Sounds
-from electro import Electro
+from electro import Electro, ELECTRO
 from field import Cell
 
 class Player:
@@ -63,7 +63,7 @@ class Game:
             if self.level == new_level:
                 continue
             
-            Electro.change_level(new_level)
+            ELECTRO.change_level(new_level)
             Sounds.water_level_n(new_level)
             if new_level > self.level:
                 Sounds.water_level_up
