@@ -6,7 +6,7 @@ class Lang(Enum):
     EN = "en/"
     NONE = ""
 
-_audio_root = "/home/pi/"
+_audio_root = "/home/pi/sound"
 
 def _play_sound(file, lang: Lang):
     print(f"omxplayer --no-keys --vol 1000 {_audio_root}{lang.value}{file}") 
@@ -23,25 +23,21 @@ class Sounds:
     def rule(lang):
         _play_sound("rule.mp3", lang)
 
-    @staticmethod
-    def need_second_player(lang):
-        _play_sound("need_second_player.mp3", lang)
+    # @staticmethod
+    # def need_second_player(lang):
+    #     _play_sound("need_second_player.mp3", lang)
 
-    @staticmethod
-    def win_player_1(lang):
-        _play_sound("win_player_1.mp3", lang)  
+    # @staticmethod
+    # def win_player_1(lang):
+    #     _play_sound("win_player_1.mp3", lang)  
 
-    @staticmethod
-    def win_player_2(lang):
-        _play_sound("win_player_2.mp3", lang)
+    # @staticmethod
+    # def win_player_2(lang):
+    #     _play_sound("win_player_2.mp3", lang)
 
     @staticmethod
     def end_game(lang):
         _play_sound("end_game.mp3", lang)        
-
-    @staticmethod
-    def water_level_n(level):
-        _play_sound(f"Siren_{level}_Layer.wav", Lang.NONE)
 
     @staticmethod
     def water_level_up():
@@ -52,10 +48,24 @@ class Sounds:
         _play_sound("level_down.mp3", Lang.NONE)
 
     @staticmethod
-    def nothing_new(level):
-        _play_sound(f"{level}_NothingNew.wav", Lang.NONE)
+    def error_cell(lang):
+        _play_sound("error.mp3", lang)
+
+    @staticmethod
+    def no_water(lang):
+        _play_sound("no_water.mp3", lang)
+        
+
+    @staticmethod
+    def water_level_n(level):
+        _play_sound(f"Siren_{level}_Layer.wav", Lang.NONE)
+
+    @staticmethod
+    def nothing_new(level, lang):
+        _play_sound(f"{level}_NothingNew.wav", lang)
 
     @staticmethod
     def cell(number, cell_level, cur_level, lang):
-         _play_sound(f"{cell_level}-{number}-{cur_level}.wav", Lang.NONE)
+        if cur_level >= cell_level:
+            _play_sound(f"{cell_level}-{number}-{cur_level}.wav", Lang.NONE)
 

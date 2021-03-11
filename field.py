@@ -14,6 +14,9 @@ class Cell:
     def testSymbol(self, symbol):
         return symbol == str(self.symbol1) + str(self.symbol2)
 
+    def get_level(self):
+        return self._level
+
     def __eq__(self, other):
         if isinstance(other, Cell):
             return (self._number, self._level) == (other._number, other._level)
@@ -70,6 +73,6 @@ class Field:
                 return cell
         return None
 
-
+FIELD = Field()
 
 
