@@ -9,10 +9,10 @@ class Lang(Enum):
 _audio_root = "/home/pi/"
 
 def _play_sound(file, lang: Lang):
-    print("omxplayer --no-keys --vol 1000 " + _audio_root + lang.value + file) 
+    print(f"omxplayer --no-keys --vol 1000 {_audio_root}{lang.value}{file}") 
     print('\n')
     time.sleep(3)
-    #os.system("omxplayer --no-keys --vol 1000 " + _audio_root + lang.value + file)
+    #os.system("omxplayer --no-keys --vol 1000 {_audio_root}{lang.value}{file}")
 
 class Sounds:
     @staticmethod
@@ -41,7 +41,7 @@ class Sounds:
 
     @staticmethod
     def water_level_n(level):
-        _play_sound("level" + str(level) + ".mp3", Lang.NONE)
+        _play_sound(f"Siren_{level}_Layer.wav", Lang.NONE)
 
     @staticmethod
     def water_level_up():
@@ -52,6 +52,10 @@ class Sounds:
         _play_sound("level_down.mp3", Lang.NONE)
 
     @staticmethod
+    def nothing_new(level):
+        _play_sound(f"{level}_NothingNew.wav", Lang.NONE)
+
+    @staticmethod
     def cell(number, cell_level, cur_level, lang):
-        pass
+         _play_sound(f"{cell_level}-{number}-{cur_level}.wav", Lang.NONE)
 

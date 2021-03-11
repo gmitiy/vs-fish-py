@@ -3,6 +3,7 @@ from audio import Lang, Sounds
 from electro import Electro, ELECTRO
 from field import Cell
 
+
 class Player:
     def __init__(self):
         self.reset()
@@ -32,9 +33,11 @@ class Game:
     _fin_level = 5
     _fin_turn = 5
 
-    def __init__(self, player1, player2):
+    def __init__(self, player1: Player, player2: Player):
         self.player1 = player1
+        ELECTRO.startB1.when_pressed = player1.switchLang
         self.player2 = player2
+        ELECTRO.langB2.when_pressed = player2.switchLang
         self.new_game()
 
     def new_game(self):
