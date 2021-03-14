@@ -1,6 +1,7 @@
 import os, time
-from random import randint
 from enum import Enum
+from random import randint
+
 from electro import log
 
 class Lang(Enum):
@@ -10,10 +11,12 @@ class Lang(Enum):
 
 _audio_root = "/home/pi/game/sound/"
 
+_omx_comm = "omxplayer --no-osd --no-keys --vol 900 "
+
 def _play_sound(file, lang: Lang):
-    log(f"omxplayer --no-keys --vol 900 {_audio_root}{lang.value}{file}") 
-    if os.system(f"omxplayer --no-keys --vol 900 {_audio_root}{lang.value}{file}") > 0:
-        os.system("omxplayer --no-keys --vol 300 /home/pi/game/sound/all_fail.m4a")
+    log(f"{_omx_comm}{_audio_root}{lang.value}{file}") 
+    if os.system(f"{_omx_comm}{_audio_root}{lang.value}{file}") > 0:
+        os.system(f"{_omx_comm} /home/pi/game/sound/test.wav")
 
 class Sounds:
     @staticmethod
@@ -51,6 +54,7 @@ class Sounds:
         log(f"Play - no_water. Lang: {lang.name}")
         _play_sound("no_water.mp3", lang)
         
+
 
     @staticmethod
     def water_level_n(level):

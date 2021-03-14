@@ -1,11 +1,11 @@
 
-from game import Player, Game
+import time
+from signal import pause
+
 from field import FIELD
 from audio import Sounds
-
+from game import Player, Game
 from electro import ELECTRO, log
-from signal import pause
-import time
 
 def main():
     log("Run script")

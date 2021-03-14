@@ -1,5 +1,9 @@
 from enum import Enum
 
+"""
+PC VL53L0X Stub (DO NOT USE)
+"""
+
 class Vl53l0xAccuracyMode(Enum):
     GOOD = 0        # 33 ms timing budget 1.2m range
     BETTER = 1      # 66 ms timing budget 1.2m range

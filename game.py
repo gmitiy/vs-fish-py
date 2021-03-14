@@ -1,8 +1,9 @@
 import numpy
+from gpiozero import Button, LED
+
+from field import Cell, FIELD
 from audio import Lang, Sounds
 from electro import Electro, ELECTRO, Controller, log
-from field import Cell, FIELD
-from gpiozero import Button, LED
 
 
 class Player:
@@ -36,6 +37,9 @@ class Player:
     def printMsg(self, msg):
         self.cur_msg = msg
         return self.controller.writeMsg(msg + self._getPlayerText())
+
+    def printMsgAll(self, msg):
+        return self.controller.writeMsg(msg)
 
     def visitCell(self, cell, level):
         self.known_cells.add((cell, level))

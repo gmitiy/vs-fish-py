@@ -1,9 +1,9 @@
+import time, serial, multiprocessing, os, sys
+
+from threading import Lock
+from datetime import datetime
 from gpiozero import Motor, Button, LED
 from VL53L0X import VL53L0X, Vl53l0xAccuracyMode
-import time, serial, multiprocessing, os
-from datetime import datetime
-from wrapt import synchronized
-from threading import Lock
 
 def log(value):
     now = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
@@ -21,13 +21,13 @@ LED2 = "BOARD21"
 
 
 # UP_LIMIT 200
-# DOWN_LIMIT 500
+# DOWN_LIMIT 490
 levels = {
     1: 200,
     2: 275,
     3: 350,
     4: 425,
-    5: 500
+    5: 490
 }
 
 def getLevel(dist):
@@ -154,11 +154,13 @@ class Electro:
         log("REBOOT")
         self.controller1.writeMsg(" -= NEW GAME =- #Loading...")
         self.controller2.writeMsg(" -= NEW GAME =- #Loading...")
+        self.motor.stop()
         os.system("sh /home/pi/game/reboot.sh &")
-        time.sleep(5)
+        time.sleep(10)
         
     def change_level(self, level):
         if not level in list(levels):
+            log(f"Electro - Level: {level} not in {list(levels)}")
             return 
         vl53, delay = startVL53()
         try:
@@ -195,3 +197,22 @@ class Electro:
 
 
 ELECTRO = Electro()
+
+
+if __name__ == "__main__":
+    if len(sys.argv) == 3:
+        if sys.argv[1] == "cl":
+            lvl = sys.argv[2]
+            log(f"Electro (CTL) - Change level to {lvl}")
+            ELECTRO.change_level(int(lvl))
+            log(f"Electro (CTL) - Change level to {lvl} - DONE")
+    elif len(sys.argv) == 2:
+        if sys.argv[1] == "gd":
+            try:
+                vl, _ = startVL53()
+                log(f"Electro (CTL) - Current distance {vl.get_distance()}")
+            finally:
+                stopVL53(vl)
+    else:
+        log(f"Electro (CTL) - Comands: cl <lvl>, gd")
+            
