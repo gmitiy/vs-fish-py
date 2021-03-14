@@ -1,0 +1,1 @@
+scp main.py game.py electro.py audio.py field.py run.sh stop.sh reboot.sh pi@192.168.100.171:~/game

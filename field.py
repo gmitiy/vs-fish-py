@@ -25,6 +25,9 @@ class Cell:
     def __hash__(self):
         return hash((self._level, self._number))
 
+    def __str__(self):
+        return f"Cell[level={self._level}, number={self._number}, symbol={str(self.symbol1) + str(self.symbol2)}]"
+
 
 class Field:
     def __init__(self):
