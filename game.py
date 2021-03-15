@@ -117,7 +117,6 @@ class Player:
         return "#" + sc.ljust(14) + self.lang.name
 
 
-
 class Game:
     _fin_level = 5
     _fin_turn = 5

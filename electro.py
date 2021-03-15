@@ -23,11 +23,11 @@ LED2 = "BOARD21"
 # UP_LIMIT 200
 # DOWN_LIMIT 490
 levels = {
-    1: 200,
-    2: 275,
-    3: 350,
-    4: 425,
-    5: 490
+    1: 262,
+    2: 307,
+    3: 358,
+    4: 414,
+    5: 465
 }
 
 def getLevel(dist):
@@ -151,7 +151,7 @@ class Electro:
         log("Electro - Initialize - DONE")
 
     def reboot(self):
-        log("REBOOT")
+        log("Electro - REBOOT")
         self.controller1.writeMsg(" -= NEW GAME =- #Loading...")
         self.controller2.writeMsg(" -= NEW GAME =- #Loading...")
         self.motor.stop()
@@ -206,6 +206,18 @@ if __name__ == "__main__":
             log(f"Electro (CTL) - Change level to {lvl}")
             ELECTRO.change_level(int(lvl))
             log(f"Electro (CTL) - Change level to {lvl} - DONE")
+        elif sys.argv[1] == "p1":
+            text = sys.argv[2]
+            log(f"Electro (CTL) - Player1 - Print text: '{text}'")
+            for _ in range(3):
+                ELECTRO.controller1.writeMsg(text)
+            log(f"Electro (CTL) - Player1 - Print text - DONE")
+        elif sys.argv[1] == "p2":
+            text = sys.argv[2]
+            log(f"Electro (CTL) - Player2 - Print text: '{text}'")
+            for _ in range(3):
+                ELECTRO.controller2.writeMsg(text)
+            log(f"Electro (CTL) - Player2 - Print text - DONE")
     elif len(sys.argv) == 2:
         if sys.argv[1] == "gd":
             try:
@@ -214,5 +226,5 @@ if __name__ == "__main__":
             finally:
                 stopVL53(vl)
     else:
-        log(f"Electro (CTL) - Comands: cl <lvl>, gd")
+        log(f"Electro (CTL) - Commands: cl <lvl>, gd, p1 <msg>, p2 <msg>")
             
