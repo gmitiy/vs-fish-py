@@ -51,14 +51,17 @@ def main():
 
     log("Game suspend")
     while True:
-        
-        player1.printMsg(" ^A ^B ^C ^D ^E ^F ^G#   GAME OVER")
-        player2.printMsg(" ^A ^B ^C ^D ^E ^F ^G#   GAME OVER")
+        player1.printMsg(" ^A ^B ^C ^D ^E ^F ^G")
+        player2.printMsg(" ^A ^B ^C ^D ^E ^F ^G")
         time.sleep(1)
-        player1.printMsg("   GAME OVER# ^A ^B ^C ^D ^E ^F ^G")
-        player2.printMsg("   GAME OVER# ^A ^B ^C ^D ^E ^F ^G")
+        player1.printMsg("   GAME OVER")
+        player2.printMsg("   GAME OVER")
         time.sleep(1)
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        log(f"!!!! Main loop crush: {e}")
+        ELECTRO.reboot(silent = True)

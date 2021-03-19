@@ -150,10 +150,11 @@ class Electro:
         self.rebootB.when_pressed = self.reboot
         log("Electro - Initialize - DONE")
 
-    def reboot(self):
-        log("Electro - REBOOT")
-        self.controller1.writeMsg(" -= NEW GAME =- #Loading...")
-        self.controller2.writeMsg(" -= NEW GAME =- #Loading...")
+    def reboot(self, silent = False):
+        log(f"Electro - REBOOT. Silent: {silent}")
+        if not silent:
+            self.controller1.writeMsg(" -= NEW GAME =- #Loading...")
+            self.controller2.writeMsg(" -= NEW GAME =- #Loading...")
         self.motor.stop()
         os.system("sh /home/pi/game/reboot.sh &")
         time.sleep(10)
@@ -198,7 +199,7 @@ class Electro:
 
 ELECTRO = Electro()
 
-
+ver = 'b1.3'
 if __name__ == "__main__":
     if len(sys.argv) == 3:
         if sys.argv[1] == "cl":
@@ -226,5 +227,5 @@ if __name__ == "__main__":
             finally:
                 stopVL53(vl)
     else:
-        log(f"Electro (CTL) - Commands: cl <lvl>, gd, p1 <msg>, p2 <msg>")
+        log(f"Electro (CTL version: {ver}) - Commands: cl <lvl>, gd, p1 <msg>, p2 <msg>")
             

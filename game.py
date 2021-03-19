@@ -32,11 +32,12 @@ class Player:
         else:
             self.lang = Lang.RU
         log(f"{self.name} - Switch lang to {self.lang.name}")
-        self.printMsg(self.cur_msg)
+        self.printMsg()
 
-    def printMsg(self, msg):
-        self.cur_msg = msg
-        return self.controller.writeMsg(msg + self._getPlayerText())
+    def printMsg(self, message = None):
+        if message is not None:
+            self.cur_msg = message
+        return self.controller.writeMsg(self.cur_msg + self._getPlayerText())
 
     def printMsgAll(self, msg):
         return self.controller.writeMsg(msg)
@@ -64,7 +65,6 @@ class Player:
 
             cell = FIELD.getCell(cell_str)
             
-
             if cell is None:
                 log(f"{self.name} - Select error cell")
                 Sounds.error_cell(self.lang)
@@ -87,6 +87,7 @@ class Player:
                 else:
                     log(f"{self.name} - Go to visited cell")
                     self.score += 1
+                self.printMsg()   
                 Sounds.nothing_new(cur_level, self.lang)
                 self.printMsg("----------------")
                 log(f"{self.name} - Score: {self.score}")
@@ -99,18 +100,26 @@ class Player:
             else:
                 log(f"{self.name} - Go to new cell")
                 self.score += cell.get_level()
-            cell.play_sound(cur_level, self.lang)
             self.visitCell(cell, cur_level)
+            self.printMsg() 
+            cell.play_sound(cur_level, self.lang)
             self.printMsg("----------------")
             log(f"{self.name} - Score: {self.score}")
             return cell
 
     def readChar(self):
-        ch = self.controller.readMsg()
-        if ch == '?':
-            Sounds.rule(self.lang)
-            ch = self.controller.readMsg()
-        return ch
+        while True:
+            try:
+                ch = self.controller.readMsg()
+                if ch == '?':
+                    Sounds.rule(self.lang)
+                    ch = self.controller.readMsg()
+                if ch is None:
+                    log(f"{self.name} - readChar None")
+                    continue
+                return ch
+            except:
+                log(f"{self.name} - readChar ERROR")
 
     def _getPlayerText(self):
         sc =  f"{'SCORE:' if self.lang == Lang.EN else 'C^YET:'} {str(self.score)}"  
@@ -135,9 +144,7 @@ class Game:
         self.turn = 0
         self.level = 1
         ELECTRO.change_level(1)
-
-        Sounds.wellcome(Lang.RU)
-        Sounds.wellcome(Lang.EN)
+        Sounds.wellcome()
 
 
     def changePlayer(self):
@@ -147,14 +154,12 @@ class Game:
     def testEnd(self):
         if self.level == self._fin_level:
             log("Game - End by fin level")
-            Sounds.end_game(Lang.RU)
-            Sounds.end_game(Lang.EN)
+            Sounds.end_game()
             return True
 
         if self.player1.score > 16 or self.player2.score > 16:
             log("Game - End by score")
-            Sounds.end_game(Lang.RU)
-            Sounds.end_game(Lang.EN)
+            Sounds.end_game()
             return True
 
         return False
@@ -163,7 +168,11 @@ class Game:
     def _change_level(self):
         log(f"Game - Current level: {self.level}")
         while True:
-            new_level = self.level + numpy.random.choice(numpy.arange(-2, 3), p = [1/6, 1/6, 0, 1/3, 1/3])
+            if self.turn == 1:
+                new_level = 2
+            else:
+                new_level = self.level + numpy.random.choice(numpy.arange(-2, 3), p = [1/6, 1/6, 0, 1/3, 1/3])
+            
             if new_level < 1:
                 log(f"Game - Select level skip by negative value. Candidat: {new_level}")
                 continue
@@ -180,11 +189,9 @@ class Game:
                 continue
 
             log(f"Game - Select new level: {new_level}")
-            ELECTRO.change_level(new_level)
             Sounds.water_level_n(new_level)
-            if new_level > self.level:
-                Sounds.water_level_up()
-            else:
+            ELECTRO.change_level(new_level)
+            if new_level < self.level:
                 Sounds.water_level_down()
 
             self.level = new_level
