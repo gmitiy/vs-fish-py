@@ -144,7 +144,6 @@ class Game:
         self.turn = 0
         self.level = 1
         ELECTRO.change_level(1)
-        Sounds.wellcome()
 
 
     def changePlayer(self):

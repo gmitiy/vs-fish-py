@@ -150,6 +150,12 @@ class Electro:
         self.rebootB.when_pressed = self.reboot
         log("Electro - Initialize - DONE")
 
+    def wait_for_start(self):
+        self.rebootB.when_pressed = None
+        self.rebootB.wait_for_press()
+        time.sleep(0.2)
+        self.rebootB.when_pressed = self.reboot
+
     def reboot(self, silent = False):
         log(f"Electro - REBOOT. Silent: {silent}")
         if not silent:

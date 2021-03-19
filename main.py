@@ -26,6 +26,14 @@ def main():
     prev_cell1 = FIELD.getCell("BB")  
     prev_cell2 = FIELD.getCell("AD")  
 
+    log("Wait for start press")
+    player1.printMsg("PRESS <START>")
+    player2.printMsg("PRESS <START>")
+
+    ELECTRO.wait_for_start()
+
+    Sounds.wellcome()
+
     log("Start game")
     while True:
         log("Next turn")
@@ -50,6 +58,7 @@ def main():
             break
 
     log("Game suspend")
+    ELECTRO.change_level(1)
     while True:
         player1.printMsg(" ^A ^B ^C ^D ^E ^F ^G")
         player2.printMsg(" ^A ^B ^C ^D ^E ^F ^G")
@@ -57,6 +66,7 @@ def main():
         player1.printMsg("   GAME OVER")
         player2.printMsg("   GAME OVER")
         time.sleep(1)
+
 
 
 if __name__ == "__main__":
