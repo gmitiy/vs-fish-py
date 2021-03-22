@@ -12,7 +12,7 @@ class Player:
         self.lang = Lang.RU
         self.controller = controller
         self.sw_lang_btn = sw_lang_btn
-        self.sw_lang_btn.when_pressed = self.switchLang
+        #self.sw_lang_btn.when_pressed = self.switchLang
         self.led = led
 
         self.score = 0

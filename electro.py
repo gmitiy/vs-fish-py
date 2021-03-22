@@ -147,14 +147,14 @@ class Electro:
         self.controller2 = Controller("/dev/ttyUSB1")
 
         self.rebootB = Button(pin=BUTTON_RESET, bounce_time=0.1)
-        self.rebootB.when_pressed = self.reboot
+        self.rebootB.when_pressed = self.rebootAll
         log("Electro - Initialize - DONE")
 
     def wait_for_start(self):
         self.rebootB.when_pressed = None
         self.rebootB.wait_for_press()
         time.sleep(0.2)
-        self.rebootB.when_pressed = self.reboot
+        self.rebootB.when_pressed = self.rebootAll
 
     def reboot(self, silent = False):
         log(f"Electro - REBOOT. Silent: {silent}")
@@ -163,6 +163,15 @@ class Electro:
             self.controller2.writeMsg(" -= NEW GAME =- #Loading...")
         self.motor.stop()
         os.system("sh /home/pi/game/reboot.sh &")
+        time.sleep(10)
+
+    def rebootAll(self, silent = False):
+        log(f"Electro - REBOOT ALL.")
+        if not silent:
+            self.controller1.writeMsg(" -= NEW GAME =- #Loading...")
+            self.controller2.writeMsg(" -= NEW GAME =- #Loading...")
+        self.motor.stop()
+        os.system("sudo reboot -f")
         time.sleep(10)
         
     def change_level(self, level):
@@ -189,7 +198,9 @@ class Electro:
     def _change_level(self, level, vl53, delay):
         curLevel = getLevel(getDistance(vl53))
         if curLevel == level:
+            log(f"Electro - Change level - Iner - Level already {level}")
             return
+        log("Electro - Change level - Iner - Start")
         time.sleep(delay)
         dest_dist = levels[level]
         if curLevel > level:

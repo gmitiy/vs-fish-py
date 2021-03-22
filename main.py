@@ -32,6 +32,9 @@ def main():
 
     ELECTRO.wait_for_start()
 
+    player1.printMsg("----------------")
+    player2.printMsg("----------------")
+
     Sounds.wellcome()
 
     log("Start game")
@@ -59,13 +62,14 @@ def main():
 
     log("Game suspend")
     ELECTRO.change_level(1)
-    while True:
+    for _ in range(15):
         player1.printMsg(" ^A ^B ^C ^D ^E ^F ^G")
         player2.printMsg(" ^A ^B ^C ^D ^E ^F ^G")
         time.sleep(1)
         player1.printMsg("   GAME OVER")
         player2.printMsg("   GAME OVER")
         time.sleep(1)
+    ELECTRO.rebootAll()
 
 
 
@@ -74,4 +78,4 @@ if __name__ == "__main__":
         main()
     except Exception as e:
         log(f"!!!! Main loop crush: {e}")
-        ELECTRO.reboot(silent = True)
+        ELECTRO.rebootAll(silent=True)

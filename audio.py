@@ -15,7 +15,7 @@ _omx_comm = "omxplayer --no-osd --no-keys --vol 250 "
 
 def _play_sound(file, lang: Lang):
     log(f"{_omx_comm}{_audio_root}{lang.value}{file}") 
-    if os.system(f"{_omx_comm}{_audio_root}{lang.value}{file}") > 0:
+    if os.system(f"{_omx_comm}{_audio_root}{lang.value}{file} > /dev/null 2>&1") > 0:
         os.system(f"{_omx_comm} /home/pi/game/sound/test.wav")
 
 
