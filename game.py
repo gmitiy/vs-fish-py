@@ -12,33 +12,31 @@ class Player:
         self.lang = Lang.RU
         self.controller = controller
         self.sw_lang_btn = sw_lang_btn
-        self.sw_lang_btn.when_pressed = self.no_lang
+        self.sw_lang_btn.when_pressed = self.switchLang
         self.led = led
 
         self.score = 0
         self.known_cells = set()
-        self.printMsg("----------------")      
-        self.printMsg("----------------")  
-        self.printMsg("----------------")   
+        self.printMsg("----------------")
+        self.printMsg("----------------")
+        self.printMsg("----------------")
 
-    def activate(self, state = None):
-         self.led.value = not self.led.value if state is None else state
-         log(f"{self.name} - Led {'activate' if self.led.value else 'deactivate'}")
-
+    def activate(self, state=None):
+        self.led.value = not self.led.value if state is None else state
+        log(f"{self.name} - Led {'activate' if self.led.value else 'deactivate'}")
 
     def switchLang(self):
-        if self.lang == Lang.RU:
-            self.lang = Lang.EN
-        else:
-            self.lang = Lang.RU
-        log(f"{self.name} - Switch lang to {self.lang.name}")
-        self.printMsg()
-
-    def no_lang(self):
         log(f"{self.name} - Press lang button - NO-LANG")
         Sounds.no_english()
 
-    def printMsg(self, message = None):
+    #     if self.lang == Lang.RU:
+    #         self.lang = Lang.EN
+    #     else:
+    #         self.lang = Lang.RU
+    #     log(f"{self.name} - Switch lang to {self.lang.name}")
+    #     self.printMsg()
+
+    def printMsg(self, message=None):
         if message is not None:
             self.cur_msg = message
         return self.controller.writeMsg(self.cur_msg + self._getPlayerText())
@@ -68,12 +66,12 @@ class Player:
             self.printMsg("> " + cell_str_p)
 
             cell = FIELD.getCell(cell_str)
-            
+
             if cell is None:
                 log(f"{self.name} - Select error cell")
                 Sounds.error_cell(self.lang)
                 self.printMsg(">")
-                continue  
+                continue
 
             if cell.get_level() > cur_level:
                 log(f"{self.name} - Select no water")
@@ -84,20 +82,19 @@ class Player:
             log(f"{self.name} - Go to cell: {str(cell)}")
 
             if self.isVisitCell(cell, cur_level):
-                
+
                 if prev_cell.get_level() > cur_level:
                     log(f"{self.name} - Go to visited cell from no water")
                     self.score -= prev_cell.get_level()
                 else:
                     log(f"{self.name} - Go to visited cell")
                     self.score += 1
-                self.printMsg()   
+                self.printMsg()
                 Sounds.nothing_new(cur_level, self.lang)
                 self.printMsg("----------------")
                 log(f"{self.name} - Score: {self.score}")
                 return cell
-                
-            
+
             if prev_cell.get_level() > cur_level:
                 log(f"{self.name} - Go to new cell from no water")
                 self.score -= prev_cell.get_level()
@@ -105,7 +102,7 @@ class Player:
                 log(f"{self.name} - Go to new cell")
                 self.score += cell.get_level()
             self.visitCell(cell, cur_level)
-            self.printMsg() 
+            self.printMsg()
             cell.play_sound(cur_level, self.lang)
             self.printMsg("----------------")
             log(f"{self.name} - Score: {self.score}")
@@ -126,7 +123,7 @@ class Player:
                 log(f"{self.name} - readChar ERROR")
 
     def _getPlayerText(self):
-        sc =  f"{'SCORE:' if self.lang == Lang.EN else 'C^YET:'} {str(self.score)}"  
+        sc = f"{'SCORE:' if self.lang == Lang.EN else 'C^YET:'} {str(self.score)}"
         return "#" + sc.ljust(14) + self.lang.name
 
 
@@ -149,7 +146,6 @@ class Game:
         self.level = 1
         ELECTRO.change_level(1)
 
-
     def changePlayer(self):
         self.player1.activate()
         self.player2.activate()
@@ -166,7 +162,6 @@ class Game:
             return True
 
         return False
-            
 
     def _change_level(self):
         log(f"Game - Current level: {self.level}")
@@ -174,8 +169,8 @@ class Game:
             if self.turn == 1:
                 new_level = 2
             else:
-                new_level = self.level + numpy.random.choice(numpy.arange(-2, 3), p = [1/6, 1/6, 0, 1/3, 1/3])
-            
+                new_level = self.level + numpy.random.choice(numpy.arange(-2, 3), p=[1 / 6, 1 / 6, 0, 1 / 3, 1 / 3])
+
             if new_level < 1:
                 log(f"Game - Select level skip by negative value. Candidat: {new_level}")
                 continue
@@ -198,11 +193,9 @@ class Game:
                 Sounds.water_level_down()
 
             self.level = new_level
-            break    
+            break
 
     def next_turn(self):
         self.turn += 1
         log(f"Game - Turn number: {self.turn}")
         self._change_level()
-        
-
