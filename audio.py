@@ -44,7 +44,10 @@ class Sounds:
         log(f"Play - water_level_n.")
         _play_sound(f"Siren_{level}_Layer.wav", Lang.NONE)
 
-
+    @staticmethod
+    def no_english():
+        log(f"Play - no_english.")
+        _play_sound("NoEnglish.wav", Lang.NONE)
 
 
     ## LANG_SOUNDS

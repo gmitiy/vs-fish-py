@@ -12,7 +12,7 @@ class Player:
         self.lang = Lang.RU
         self.controller = controller
         self.sw_lang_btn = sw_lang_btn
-        #self.sw_lang_btn.when_pressed = self.switchLang
+        self.sw_lang_btn.when_pressed = self.no_lang
         self.led = led
 
         self.score = 0
@@ -33,6 +33,10 @@ class Player:
             self.lang = Lang.RU
         log(f"{self.name} - Switch lang to {self.lang.name}")
         self.printMsg()
+
+    def no_lang(self):
+        log(f"{self.name} - Press lang button - NO-LANG")
+        Sounds.no_english()
 
     def printMsg(self, message = None):
         if message is not None:
