@@ -123,11 +123,12 @@ class Controller:
                 return None
 
     def writeMsg(self, msg: str):
-        with self.w_lock:
-            for _ in range(5):
+        with self.r_lock:
+            msg = msg.replace('\n', '#')
+            log(f" --- send to controller: ${msg}; ---")
+            for _ in range(3):
+                time.sleep(0.033)
                 try:
-                    msg = msg.replace('\n', '#')
-                    log(f"--- send to controller: ${msg};")
                     self.reset_output()
                     self.com.write(str.encode(f"${msg};"))
                     self.com.flush()
