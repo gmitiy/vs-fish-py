@@ -124,14 +124,16 @@ class Controller:
 
     def writeMsg(self, msg: str):
         with self.w_lock:
-            try:
-                msg = msg.replace('\n', '#')
-                log(f"--- send to controller: ${msg};")
-                self.reset_output()
-                self.com.write(str.encode(f"${msg};"))
-                self.com.flush()
-            except Exception as e:
-                log(f"ERROR - Controller - Write msg error: {e}")
+            for _ in range(5):
+                try:
+                    msg = msg.replace('\n', '#')
+                    log(f"--- send to controller: ${msg};")
+                    self.reset_output()
+                    self.com.write(str.encode(f"${msg};"))
+                    self.com.flush()
+                except Exception as e:
+                    log(f"ERROR - Controller - Write msg error: {e}")
+                    break
 
 
 class Electro:
@@ -242,13 +244,13 @@ if __name__ == "__main__":
         elif sys.argv[1] == "p1":
             text = sys.argv[2]
             log(f"Electro (CTL) - Player1 - Print text: '{text}'")
-            for _ in range(3):
+            for _ in range(5):
                 ELECTRO.controller1.writeMsg(text)
             log(f"Electro (CTL) - Player1 - Print text - DONE")
         elif sys.argv[1] == "p2":
             text = sys.argv[2]
             log(f"Electro (CTL) - Player2 - Print text: '{text}'")
-            for _ in range(3):
+            for _ in range(5):
                 ELECTRO.controller2.writeMsg(text)
             log(f"Electro (CTL) - Player2 - Print text - DONE")
     elif len(sys.argv) == 2:
