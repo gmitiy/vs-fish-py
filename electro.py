@@ -204,13 +204,27 @@ class Electro:
         time.sleep(delay)
         dest_dist = levels[level]
         if curLevel > level:
-            self.motor.backward()
-            while getDistance(vl53) > dest_dist:
-                time.sleep(delay)
+            while True:
+                new_dist = getDistance(vl53)
+                if new_dist <= 0:
+                    self.motor.stop()
+                else:
+                    self.motor.backward()
+                if new_dist > dest_dist:
+                    time.sleep(delay)
+                else:
+                    break
         else:
-            self.motor.forward()
-            while getDistance(vl53) < dest_dist:
-                time.sleep(delay)
+            while True:
+                new_dist = getDistance(vl53)
+                if new_dist <= 0:
+                    self.motor.stop()
+                else:
+                    self.motor.forward()
+                if new_dist < dest_dist:
+                    time.sleep(delay)
+                else:
+                    break
         self.motor.stop()
 
 
