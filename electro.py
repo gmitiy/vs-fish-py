@@ -126,6 +126,7 @@ class Controller:
         with self.w_lock:
             try:
                 msg = msg.replace('\n', '#')
+                log(f"--- send to controller: ${msg};")
                 self.reset_output()
                 self.com.write(str.encode(f"${msg};"))
                 self.com.flush()
