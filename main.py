@@ -78,5 +78,5 @@ if __name__ == "__main__":
         main()
     except Exception as e:
         log(f"!!!! Main loop crush: {e}")
-        time.sleep(60)
+        time.sleep(120)
         ELECTRO.rebootAll(silent=True)
