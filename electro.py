@@ -147,11 +147,11 @@ class Electro:
 
         self.motor = Motor(forward=MOTOR_LEFT_PIN, backward=MOTOR_RIGHT_PIN, pwm=False)
 
-        #self.controller1 = Controller("/dev/cont1")
-        #self.controller2 = Controller("/dev/cont2")
+        self.controller1 = Controller("/dev/cont1")
+        self.controller2 = Controller("/dev/cont2")
 
-        self.controller1 = Controller("/dev/ttyUSB0")
-        self.controller2 = Controller("/dev/ttyUSB1")
+        #self.controller1 = Controller("/dev/ttyUSB0")
+        #self.controller2 = Controller("/dev/ttyUSB1")
 
         self.rebootB = Button(pin=BUTTON_RESET, bounce_time=0.1)
         self.rebootB.when_pressed = self.rebootAll
