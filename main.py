@@ -3,7 +3,7 @@ import time
 from signal import pause
 
 from field import FIELD
-from audio import Sounds
+from audio import Sounds, Lang
 from game import Player, Game
 from electro import ELECTRO, log
 
@@ -23,7 +23,7 @@ def main():
     log("Create Game - DONE")
 
 
-    prev_cell1 = FIELD.getCell("BB")  
+    prev_cell1 = FIELD.getCell("BB")
     prev_cell2 = FIELD.getCell("AD")  
 
     log("Wait for start press")
@@ -36,6 +36,9 @@ def main():
     player2.printMsg("----------------")
 
     Sounds.wellcome()
+    time.sleep(1)
+    if player1.lang == Lang.EN or player2.lang == Lang.EN:
+        Sounds.wellcomeEN()
 
     log("Start game")
     while True:

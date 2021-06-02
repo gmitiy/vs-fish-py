@@ -30,6 +30,11 @@ class Sounds:
         _play_sound("Beginning.wav", Lang.NONE)
 
     @staticmethod
+    def wellcomeEN():
+        log(f"Play - wellcomeEN.")
+        _play_sound("Beginning2.wav", Lang.NONE)
+
+    @staticmethod
     def end_game():
         log(f"Play - end_game.")
         _play_sound("GameOver.wav", Lang.NONE)
