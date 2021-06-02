@@ -32,7 +32,8 @@ class Sounds:
     @staticmethod
     def end_game():
         log(f"Play - end_game.")
-        _play_sound("GameOver.wav", Lang.NONE)      
+        _play_sound("GameOver.wav", Lang.NONE)
+        _play_sound("GameOver2.wav", Lang.NONE)
 
     @staticmethod
     def water_level_down():
