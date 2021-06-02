@@ -26,15 +26,14 @@ class Player:
         log(f"{self.name} - Led {'activate' if self.led.value else 'deactivate'}")
 
     def switchLang(self):
-        log(f"{self.name} - Press lang button - NO-LANG")
-        Sounds.no_english()
-
-    #     if self.lang == Lang.RU:
-    #         self.lang = Lang.EN
-    #     else:
-    #         self.lang = Lang.RU
-    #     log(f"{self.name} - Switch lang to {self.lang.name}")
-    #     self.printMsg()
+        # log(f"{self.name} - Press lang button - NO-LANG")
+        # Sounds.no_english()
+        if self.lang == Lang.RU:
+            self.lang = Lang.EN
+        else:
+            self.lang = Lang.RU
+        log(f"{self.name} - Switch lang to {self.lang.name}")
+        self.printMsg()
 
     def printMsg(self, message=None):
         if message is not None:
